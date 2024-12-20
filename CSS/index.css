@@ -1,0 +1,16 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+.navbar {
+  background-image: linear-gradient(60deg, #96deda 0%, #50c9c3 100%);
+}
+.navbar-brand {
+  font-size: 30px !important;
+  font-weight: bold;
+}
+.nav-item {
+  font-size: 22px !important;
+}
