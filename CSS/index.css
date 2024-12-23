@@ -1,25 +1,53 @@
+/*
+  reset all elements' padding and margin to 0
+  and set box-sizing to border-box
+  and set font-family to sans-serif
+*/
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
   font-family: sans-serif;
 }
+
+/*
+  set navbar background color to gradient
+  and set font color to blue
+*/
 .navbar {
   background-image: linear-gradient(60deg, #96deda 0%, #50c9c3 100%);
   color: rgb(72, 72, 145);
 }
+
+/*
+  set navbar brand font size and font weight
+*/
 .navbar-brand {
   font-size: 30px !important;
   font-weight: bold;
 }
+
+/*
+  set navbar item font size
+*/
 .nav-item {
   font-size: 22px !important;
 }
+
+/*
+  set button background color to gradient
+  and remove border and box shadow
+*/
 .btn {
   background-image: linear-gradient(60deg, #96deda 0%, #50c9c3 100%);
   border: none !important;
   box-shadow: none !important;
 }
+
+/*
+  set active tab background color to gradient
+  and set font color to white
+*/
 .nav-tabs .nav-link.active {
   background-image: linear-gradient(60deg, #96deda 0%, #50c9c3 100%);
   color: #fff !important;
