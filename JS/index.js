@@ -97,14 +97,18 @@ loginForm.addEventListener("submit", (e) => {
       // After a short delay, update the button text and display success message
       setTimeout(() => {
         loginBtn.innerText = "Login";
-        swal("Login Success!", "Good job!", "success");
+        swal("Login Success!", "Good job!", "success").then(() => {
+          // Redirect to profile page
+          window.location.href = "/profile/profile.html";
+        });
 
         // Clear all input fields
         allLoginInput.forEach((el) => {
           el.value = "";
         });
-        // Redirect to profile page
-        window.location.href = "/profile/profile.html";
+
+        // If you want redirect to profile page without using swal, uncomment the line below
+        // window.location.href = "profile.html";
       }, 2000);
     } else {
       // Display an error message for incorrect password
