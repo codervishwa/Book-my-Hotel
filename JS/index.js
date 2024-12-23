@@ -2,9 +2,9 @@
 let allUsersInfo = [];
 
 // Get references to the registration form, all input fields, and the registration button
-let regForm = document.querySelector(".reg-form");
-let allInput = regForm.querySelectorAll("input");
-let regBtn = regForm.querySelector("button");
+const regForm = document.querySelector(".reg-form");
+const allInput = regForm.querySelectorAll("input");
+const regBtn = regForm.querySelector("button");
 
 // Load existing users from localStorage, if any
 if (localStorage.getItem("allUsersInfo") !== null) {
@@ -19,19 +19,21 @@ regForm.addEventListener("submit", (e) => {
   e.preventDefault();
 
   // Get the email input field by its name attribute
-  let emailInput = regForm.querySelector("input[name='email']");
+  const emailInput = regForm.querySelector("input[name='email']");
 
   // Check if the entered email already exists in the user data
-  let checkEmail = allUsersInfo.find((data) => data.email === emailInput.value);
+  const existingUser = allUsersInfo.find(
+    (data) => data.email === emailInput.value
+  );
 
-  if (checkEmail === undefined) {
+  if (!existingUser) {
     // If the email is not already registered, create a new user data object
-    let data = {};
+    const data = {};
 
     // Iterate over all input fields and collect their values
     allInput.forEach((el) => {
       // Use the input field's name attribute as the key for the data object
-      let key = el.name;
+      const key = el.name;
       data[key] = el.value; // Collect all form data
     });
 
