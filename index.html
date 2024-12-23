@@ -49,17 +49,17 @@
           <!-- Nav Tab -->
           <ul class="nav nav-tabs">
             <li class="nav-item">
-              <a href="#signup" class="nav-link active" data-bs-toggle="tab"
-                >SignUp</a
-              >
+              <a href="#signup" class="nav-link" data-bs-toggle="tab">SignUp</a>
             </li>
             <li class="nav-item">
-              <a href="#login" class="nav-link" data-bs-toggle="tab">Login</a>
+              <a href="#login" class="nav-link active" data-bs-toggle="tab"
+                >Login</a
+              >
             </li>
           </ul>
           <!-- nav panes -->
           <div class="tab-content">
-            <div class="tab-pane active container mt-3" id="signup">
+            <div class="tab-pane container mt-3" id="signup">
               <img src="img/sign-up-1.png" class="w-25" />
               <form class="reg-form">
                 <input
@@ -103,15 +103,17 @@
                 </button>
               </form>
             </div>
-            <div class="tab-pane container mt-3" id="login">
+            <div class="tab-pane active container mt-3" id="login">
               <img src="img/login.jpg" class="w-25 mb-3" />
               <form class="login-form">
                 <input
+                  name="email"
                   type="email"
                   placeholder="Email "
                   class="form-control mb-3"
                 />
                 <input
+                  name="password"
                   type="password"
                   placeholder="Enter Password "
                   class="form-control mb-3"

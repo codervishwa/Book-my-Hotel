@@ -55,3 +55,63 @@ regForm.addEventListener("submit", (e) => {
     swal("Failed!", "Email already exists.", "warning");
   }
 });
+
+// Login Form
+
+// Get the login form element
+let loginForm = document.querySelector(".login-form");
+// Get all input fields within the login form
+let allLoginInput = loginForm.querySelectorAll("input");
+// Get the login button element
+let loginBtn = loginForm.querySelector("button");
+
+// Add an event listener for the form submission
+loginForm.addEventListener("submit", (e) => {
+  // Prevent the default form submission behavior
+  e.preventDefault();
+
+  // Get the email input field
+  let emailInput = loginForm.querySelector("input[name='email']");
+  // Get the password input field
+  let passwordInput = loginForm.querySelector("input[name='password']");
+
+  // Check if input fields are empty
+  if (emailInput.value.trim() === "" || passwordInput.value.trim() === "") {
+    swal("Error!", "Please fill in both email and password.", "error");
+    return;
+  }
+
+  // Check if the entered email exists in the user data
+  let checkEmail = allUsersInfo.find((data) => data.email === emailInput.value);
+
+  if (checkEmail !== undefined) {
+    // Check if the entered password matches the stored password
+    let checkPassword = allUsersInfo.find(
+      (data) => data.password === passwordInput.value
+    );
+
+    if (checkPassword !== undefined) {
+      // Update the login button's text to indicate processing
+      loginBtn.innerText = "Processing....";
+
+      // After a short delay, update the button text and display success message
+      setTimeout(() => {
+        loginBtn.innerText = "Login";
+        swal("Login Success!", "Good job!", "success");
+
+        // Clear all input fields
+        allLoginInput.forEach((el) => {
+          el.value = "";
+        });
+        // Redirect to profile page
+        window.location.href = "/profile/profile.html";
+      }, 2000);
+    } else {
+      // Display an error message for incorrect password
+      swal("Failed!", "Incorrect password.", "warning");
+    }
+  } else {
+    // Display an error message if the email is not found
+    swal("Failed!", "Email not found.", "warning");
+  }
+});
