@@ -102,6 +102,11 @@ loginForm.addEventListener("submit", (e) => {
         swal("Login Success!", "Good job!", "success").then(() => {
           // Redirect to profile page
           window.location.href = "/profile/profile.html";
+          // Remove the password from the user data before storing it in sessionStorage
+          // for security reasons
+          checkEmail.password = null;
+          // Store the logged-in user data in sessionStorage
+          sessionStorage.setItem("user", JSON.stringify(checkEmail));
         });
 
         // Clear all input fields

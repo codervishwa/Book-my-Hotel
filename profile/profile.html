@@ -3,9 +3,60 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <!-- CSS Links -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../CSS/bootstrap.css" />
+    <link rel="stylesheet" href="../CSS/animate.css" />
+    <link rel="stylesheet" href="CSS/profile.css" />
+    <!-- CSS links End -->
+    <!-- JS link -->
+    <script src="../JS/bootstrap.js"></script>
+    <script type="module" src="../JS/sweetalert.js"></script>
+    <!-- End JS link -->
+    <title>Profile</title>
   </head>
   <body>
-    <h1>Welcome to profile Page</h1>
+    <nav
+      class="navbar navbar-expand-md bg-light shadow-lg fixed-top navbar-light"
+    >
+      <div class="container-fluid">
+        <img
+          src="../img/logo-2.jpg"
+          class="rounded-circle"
+          width="60"
+          height="60"
+        />
+        <a href="#" class="mx-4 text-primary navbar-brand"> Book My Hotel </a>
+        <button
+          class="navbar-toggler"
+          data-bs-toggle="collapse"
+          data-bs-target="#myMenu"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse" id="myMenu">
+          <ul class="navbar-nav w-100 justify-content-end">
+            <div class="input-group mx-5 w-50">
+              <input
+                type="search"
+                class="form-control"
+                placeholder="Search by name, email, Room.No.."
+              />
+              <span class="input-group-text fw-bold text-white btn"
+                >Search</span
+              >
+            </div>
+            <button class="btn text-danger fw-bold px-4 ml-4" id="logout">
+              Logout
+            </button>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- Start JS link -->
+    <script src="JS/profile.js"></script>
   </body>
 </html>
