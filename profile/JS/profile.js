@@ -27,11 +27,6 @@ logoutButton.addEventListener("click", () => {
 });
 
 // Function to format dates into dd-mm-yyyy
-/**
- * Takes a date string as input and formats it to dd-mm-yyyy
- * @param {string} date - The date string to format
- * @returns {string} The formatted date string
- */
 const formatDate = (date) => {
   const d = new Date(date);
   const day = String(d.getDate()).padStart(2, "0");
