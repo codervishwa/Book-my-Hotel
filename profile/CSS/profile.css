@@ -36,3 +36,38 @@
   box-shadow: none !important;
   font-size: 22px !important;
 }
+.action-btn {
+  background-image: linear-gradient(60deg, #96deda 0%, #50c9c3 100%);
+  border: none !important;
+  box-shadow: none !important;
+  font-size: 22px !important;
+}
+/*
+  set active tab background color to gradient
+  and set font color to white
+*/
+.nav-tabs .nav-link.active {
+  background-image: linear-gradient(60deg, #96deda 0%, #50c9c3 100%);
+  color: #fff !important;
+}
+/*
+  Adjust button styles for the table
+  Make the button smaller in size and display inline
+  Center the icon in the button
+*/
+.table .btn {
+  padding: 5px 5px; /* reduce padding to make the button smaller */
+  font-size: 0.7em; /* reduce font size */
+  width: 30px; /* set the width of the button */
+  height: 30px; /* set the height of the button */
+  display: inline-flex; /* display the button inline */
+  align-items: center; /* center the icon vertically */
+  justify-content: center; /* center the icon horizontally */
+}
+
+/*
+  Adjust icon size in the table button
+*/
+.table .btn i {
+  font-size: 0.7em; /* reduce the size of the icon */
+}

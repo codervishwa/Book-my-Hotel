@@ -14,7 +14,7 @@
     <!-- CSS links End -->
     <!-- JS link -->
     <script src="../JS/bootstrap.js"></script>
-    <script type="module" src="../JS/sweetalert.js"></script>
+    <script src="../JS/sweetalert.js"></script>
     <!-- End JS link -->
     <title>Profile</title>
   </head>
@@ -56,6 +56,229 @@
         </div>
       </div>
     </nav>
+    <br /><br />
+    <div class="container mt-5">
+      <div class="row">
+        <div class="col-md-12">
+          <!-- Nav Tab -->
+          <ul class="nav nav-tabs">
+            <li class="nav-item">
+              <a href="#booking" class="nav-link active" data-bs-toggle="tab"
+                >Booking</a
+              >
+            </li>
+            <li class="nav-item">
+              <a href="#InHouse" class="nav-link" data-bs-toggle="tab"
+                >InHouse</a
+              >
+            </li>
+            <li class="nav-item">
+              <a href="#cashier" class="nav-link" data-bs-toggle="tab"
+                >Cashier</a
+              >
+            </li>
+            <li class="nav-item">
+              <a href="#archive" class="nav-link" data-bs-toggle="tab"
+                >Archive</a
+              >
+            </li>
+          </ul>
+          <!-- nav panes -->
+          <div class="tab-content">
+            <div class="tab-pane active container mt-3" id="booking">
+              <div class="row my-5">
+                <div class="col-md-4 text-center">
+                  <button
+                    data-bs-toggle="modal"
+                    data-bs-target="#registerModal"
+                    class="btn action-btn px-4 text-white"
+                  >
+                    Register
+                  </button>
+                </div>
+                <div class="col-md-4 text-center">
+                  <button class="btn action-btn text-white px-4">Print</button>
+                </div>
+                <div class="col-md-4 text-center">
+                  <button class="btn action-btn text-white">
+                    Total Booking
+                  </button>
+                </div>
+              </div>
+              <div>
+                <h2>All Booking Data</h2>
+                <table class="table text-center table-striped">
+                  <thead>
+                    <tr>
+                      <th>Sr</th>
+                      <th>Location</th>
+                      <th>Room No</th>
+                      <th>Full Name</th>
+                      <th>CheckIn</th>
+                      <th>CheckOut</th>
+                      <th>Total People</th>
+                      <th>Mobile</th>
+                      <th>Notice</th>
+                      <th>Price</th>
+                      <th>Registered at</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+
+                  <tbody id="bookingData" class="booking-list tbody">
+                    <tr>
+                      <td>1</td>
+                      <td>Mumbai</td>
+                      <td>251</td>
+                      <td>Vishwa</td>
+                      <td>25-12-2024</td>
+                      <td>31-12-2024</td>
+                      <td>7</td>
+                      <td>8328125515</td>
+                      <td>Includes</td>
+                      <td>4000</td>
+                      <td>20-12-2024</td>
+                      <td>
+                        <button class="btn btn-primary">
+                          <i class="fa fa-edit"></i>
+                        </button>
+                        <button class="btn btn-info">
+                          <i class="fa fa-check"></i>
+                        </button>
+                        <button class="btn btn-danger">
+                          <i class="fa fa-trash"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="tab-pane container mt-3" id="login">
+              <form class="login-form">
+                <input
+                  name="email"
+                  type="email"
+                  placeholder="Email "
+                  class="form-control mb-3"
+                />
+                <input
+                  name="password"
+                  type="password"
+                  placeholder="Enter Password "
+                  class="form-control mb-3"
+                />
+                <button type="submit" class="btn btn-primary w-100">
+                  Login
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Start Modal Coding -->
+    <div class="modal animate__animated animate__zoomIn" id="registerModal">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header bg-white text-black">
+            <h2>Register</h2>
+            <button
+              class="btn-close b-modal-close-btn"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form class="booking-form">
+              <div class="row">
+                <div class="col-md-6">
+                  <input
+                    name="location"
+                    type="text"
+                    placeholder="Location"
+                    class="form-control mb-3"
+                  />
+                </div>
+                <div class="col-md-6">
+                  <input
+                    name="fullname"
+                    type="text"
+                    placeholder="Fullname"
+                    class="form-control mb-3"
+                  />
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <input
+                    name="roomNo"
+                    type="text"
+                    placeholder="Room No"
+                    class="form-control mb-3"
+                  />
+                </div>
+                <div class="col-md-6">
+                  <input
+                    name="totalPeople"
+                    type="text"
+                    placeholder="Total People"
+                    class="form-control mb-3"
+                  />
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <label>CheckIn</label>
+                  <input name="checkIn" type="date" class="form-control mb-3" />
+                </div>
+                <div class="col-md-6">
+                  <label>CheckOut</label>
+                  <input
+                    name="checkOut"
+                    type="date"
+                    class="form-control mb-3"
+                  />
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <input
+                    name="price"
+                    type="number"
+                    placeholder="Price"
+                    class="form-control mb-3"
+                  />
+                </div>
+                <div class="col-md-6">
+                  <input
+                    name="mobile"
+                    type="number"
+                    placeholder="Mobile"
+                    class="form-control mb-3"
+                  />
+                </div>
+                <div class="row mb-3 py-2">
+                  <div class="col-md-12">
+                    <textarea
+                      name="notice"
+                      class="form-control mb-3"
+                      placeholder="Notice"
+                    ></textarea>
+                  </div>
+                </div>
+              </div>
+              <button type="submit" class="btn action-btn text-white w-100">
+                Register
+              </button>
+              <button type="button" class="btn d-none bg-danger w-100">
+                Update
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Start JS link -->
     <script src="JS/profile.js"></script>
   </body>
