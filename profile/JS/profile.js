@@ -154,12 +154,27 @@ form.addEventListener("submit", (e) => {
 
 // Function to delete a booking
 const deleteBooking = (index) => {
-  allBookingData.splice(index, 1); // Remove the selected booking
-  localStorage.setItem(
-    `${currentUser}_bookingData`,
-    JSON.stringify(allBookingData)
-  ); // Update localStorage
-  renderTable(); // Re-render the table
+  swal({
+    title: "Are you sure?",
+    text: "Once deleted, you will not be able to recover this booking.",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  }).then((willDelete) => {
+    if (willDelete) {
+      allBookingData.splice(index, 1); // Remove the selected booking
+      localStorage.setItem(
+        `${currentUser}_bookingData`,
+        JSON.stringify(allBookingData)
+      ); // Update localStorage
+      renderTable(); // Re-render the table
+      swal(
+        "Deleted!",
+        "Your booking has been deleted successfully.",
+        "success"
+      ); // Show success message
+    }
+  });
 };
 
 // Function to edit a booking
