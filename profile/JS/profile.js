@@ -26,9 +26,6 @@ logoutButton.addEventListener("click", () => {
   }, 3000);
 });
 
-// ------------------------------------------------------------------------------------Datatable------------------------------------------------------------------------------------------------------
-// Common tables for booking and In house Data with different data and different storage keys
-
 // Function to format dates into dd-mm-yyyy
 const formatDate = (date) => {
   if (!date) return ""; // Handle cases where the date is missing
@@ -38,14 +35,44 @@ const formatDate = (date) => {
   const year = d.getFullYear();
   return `${day}-${month}-${year}`;
 };
+const currentUser = userInfo.email.split("@")[0];
 
-// Initialize user information
+// Shared utility functions
+const validateForm = (form) => {
+  let isValid = true;
+  const inputs = form.querySelectorAll("input, textarea");
+  inputs.forEach((input) => {
+    if (input.value.trim() === "") {
+      input.style.border = "2px solid red";
+      isValid = false;
+    } else {
+      input.style.border = "";
+    }
+  });
+  if (!isValid) alert("Please fill out all required fields!");
+  return isValid;
+};
 
-const currentUser = userInfo.email.split("@")[0]; // Unique identifier for the user
+// Generic function to get form data
+const getFormData = (form) => {
+  const formData = new FormData(form);
+  return {
+    location: formData.get("location"),
+    fullname: formData.get("fullname"),
+    roomNo: formData.get("roomNo"),
+    totalPeople: formData.get("totalPeople"),
+    checkIn: formData.get("checkIn") || null,
+    checkOut: formData.get("checkOut") || null,
+    price: formData.get("price"),
+    mobile: formData.get("mobile"),
+    notice: formData.get("notice"),
+    createdAt: new Date(),
+  };
+};
 
-// Generic function to render a table
+// Generic table render function
 const renderTable = (data, tableBody, editFn, deleteFn) => {
-  tableBody.innerHTML = ""; // Clear table
+  tableBody.innerHTML = "";
   data.forEach((item, index) => {
     const tr = document.createElement("tr");
     tr.innerHTML = `
@@ -64,9 +91,6 @@ const renderTable = (data, tableBody, editFn, deleteFn) => {
         <button class="btn btn-primary" onclick="${editFn}(${index})">
           <i class="fa fa-edit"></i>
         </button>
-        <button class="btn btn-info">
-           <i class="fa fa-check"></i>
-         </button>
         <button class="btn btn-danger" onclick="${deleteFn}(${index})">
           <i class="fa fa-trash"></i>
         </button>
@@ -76,95 +100,64 @@ const renderTable = (data, tableBody, editFn, deleteFn) => {
   });
 };
 
-// Generic function to validate form fields
-const validateForm = (form) => {
-  let isValid = true;
-  const inputs = form.querySelectorAll("input, textarea");
-  inputs.forEach((input) => {
-    if (input.value.trim() === "") {
-      input.style.border = "2px solid red";
-      isValid = false;
-    } else {
-      input.style.border = "";
-    }
-  });
-  if (!isValid) alert("Please fill out all required fields!");
-  return isValid;
-};
-
 // Generic function to handle form submission
-const handleFormSubmit = (
-  e,
-  form,
-  data,
-  storageKey,
-  renderFn,
-  modalCloseBtn
-) => {
+const handleSubmit = (e, form, data, storageKey, renderFn, modalCloseBtn) => {
   e.preventDefault();
   if (!validateForm(form)) return;
 
-  const formData = new FormData(form);
-  const newData = {
-    location: formData.get("location"),
-    fullname: formData.get("fullname"),
-    roomNo: formData.get("roomNo"),
-    totalPeople: formData.get("totalPeople"),
-    checkIn: formData.get("checkIn") || null,
-    checkOut: formData.get("checkOut") || null,
-    price: formData.get("price"),
-    mobile: formData.get("mobile"),
-    notice: formData.get("notice"),
-    createdAt: new Date(),
-  };
-
-  data.push(newData);
+  data.push(getFormData(form));
   localStorage.setItem(storageKey, JSON.stringify(data));
   renderFn();
   form.reset();
   modalCloseBtn.click();
 };
 
-// Generic function to delete data
-const deleteData = (index, data, storageKey, renderFn) => {
-  data.splice(index, 1);
-  localStorage.setItem(storageKey, JSON.stringify(data));
-  renderFn();
-};
-
-// Generic function to edit data
-const editData = (index, data, form, modal, storageKey, renderFn) => {
+// Generic function to handle edit
+const handleEdit = (index, data, form, modal, submitBtn, updateBtn) => {
   const item = data[index];
   Object.keys(item).forEach((key) => {
     const input = form.querySelector(`[name="${key}"]`);
-    if (input) input.value = item[key];
+    if (input && item[key]) input.value = item[key];
   });
+
+  submitBtn.classList.add("d-none");
+  updateBtn.classList.remove("d-none");
 
   const bootstrapModal = new bootstrap.Modal(modal);
   bootstrapModal.show();
+  return item;
+};
 
-  const submitButton = form.querySelector('button[type="submit"]');
-  const updateButton = form.querySelector('button[type="button"]');
-  submitButton.classList.add("d-none");
-  updateButton.classList.remove("d-none");
+// Generic function to handle update
+const handleUpdate = (
+  form,
+  data,
+  index,
+  storageKey,
+  renderFn,
+  modal,
+  submitBtn,
+  updateBtn
+) => {
+  if (!validateForm(form)) return;
 
-  updateButton.onclick = () => {
-    if (!validateForm(form)) return;
+  data[index] = getFormData(form);
+  localStorage.setItem(storageKey, JSON.stringify(data));
+  renderFn();
 
-    const updatedData = new FormData(form);
-    Object.keys(item).forEach((key) => {
-      if (updatedData.has(key)) item[key] = updatedData.get(key);
-    });
-    item.createdAt = new Date();
+  form.reset();
+  submitBtn.classList.remove("d-none");
+  updateBtn.classList.add("d-none");
+  bootstrap.Modal.getInstance(modal).hide();
+};
 
-    data[index] = item;
+// Generic function to handle delete
+const handleDelete = (index, data, storageKey, renderFn) => {
+  if (confirm("Are you sure you want to delete this record?")) {
+    data.splice(index, 1);
     localStorage.setItem(storageKey, JSON.stringify(data));
     renderFn();
-    form.reset();
-    updateButton.classList.add("d-none");
-    submitButton.classList.remove("d-none");
-    bootstrapModal.hide();
-  };
+  }
 };
 
 // ----------------- Booking Tab -----------------
@@ -174,13 +167,15 @@ const bookingForm = document.querySelector(".booking-form");
 const bookingTbody = document.getElementById("bookingData");
 const bookingModal = document.getElementById("registerModal");
 const bookingCloseBtn = document.querySelector(".b-modal-close-btn");
+const bookingSubmitBtn = bookingForm.querySelector('button[type="submit"]');
+const bookingUpdateBtn = bookingForm.querySelector('button[type="button"]');
+let currentBookingIndex = -1;
 
-const renderBookingTable = () => {
+const renderBookingTable = () =>
   renderTable(bookingData, bookingTbody, "editBooking", "deleteBooking");
-};
 
 bookingForm.addEventListener("submit", (e) =>
-  handleFormSubmit(
+  handleSubmit(
     e,
     bookingForm,
     bookingData,
@@ -189,24 +184,39 @@ bookingForm.addEventListener("submit", (e) =>
     bookingCloseBtn
   )
 );
+
 const deleteBooking = (index) =>
-  deleteData(
+  handleDelete(
     index,
     bookingData,
-    `${currentUser}_bookingData`,
-    renderBookingTable
-  );
-const editBooking = (index) =>
-  editData(
-    index,
-    bookingData,
-    bookingForm,
-    bookingModal,
     `${currentUser}_bookingData`,
     renderBookingTable
   );
 
-renderBookingTable();
+const editBooking = (index) => {
+  currentBookingIndex = index;
+  handleEdit(
+    index,
+    bookingData,
+    bookingForm,
+    bookingModal,
+    bookingSubmitBtn,
+    bookingUpdateBtn
+  );
+};
+
+bookingUpdateBtn.addEventListener("click", () =>
+  handleUpdate(
+    bookingForm,
+    bookingData,
+    currentBookingIndex,
+    `${currentUser}_bookingData`,
+    renderBookingTable,
+    bookingModal,
+    bookingSubmitBtn,
+    bookingUpdateBtn
+  )
+);
 
 // ----------------- InHouse Tab -----------------
 const inHouseData =
@@ -215,13 +225,15 @@ const inHouseForm = document.querySelector(".in-house-form");
 const inHouseTbody = document.getElementById("inHouseData");
 const inHouseModal = document.getElementById("inHouseModal");
 const inHouseCloseBtn = document.querySelector(".in-house-modal-close-btn");
+const inHouseSubmitBtn = inHouseForm.querySelector('button[type="submit"]');
+const inHouseUpdateBtn = inHouseForm.querySelector('button[type="button"]');
+let currentInHouseIndex = -1;
 
-const renderInHouseTable = () => {
+const renderInHouseTable = () =>
   renderTable(inHouseData, inHouseTbody, "editInHouse", "deleteInHouse");
-};
 
 inHouseForm.addEventListener("submit", (e) =>
-  handleFormSubmit(
+  handleSubmit(
     e,
     inHouseForm,
     inHouseData,
@@ -230,21 +242,55 @@ inHouseForm.addEventListener("submit", (e) =>
     inHouseCloseBtn
   )
 );
+
 const deleteInHouse = (index) =>
-  deleteData(
+  handleDelete(
     index,
     inHouseData,
-    `${currentUser}_inHouseData`,
-    renderInHouseTable
-  );
-const editInHouse = (index) =>
-  editData(
-    index,
-    inHouseData,
-    inHouseForm,
-    inHouseModal,
     `${currentUser}_inHouseData`,
     renderInHouseTable
   );
 
+const editInHouse = (index) => {
+  currentInHouseIndex = index;
+  handleEdit(
+    index,
+    inHouseData,
+    inHouseForm,
+    inHouseModal,
+    inHouseSubmitBtn,
+    inHouseUpdateBtn
+  );
+};
+
+inHouseUpdateBtn.addEventListener("click", () =>
+  handleUpdate(
+    inHouseForm,
+    inHouseData,
+    currentInHouseIndex,
+    `${currentUser}_inHouseData`,
+    renderInHouseTable,
+    inHouseModal,
+    inHouseSubmitBtn,
+    inHouseUpdateBtn
+  )
+);
+
+// Reset forms when modals are closed
+bookingModal.addEventListener("hidden.bs.modal", () => {
+  bookingForm.reset();
+  bookingSubmitBtn.classList.remove("d-none");
+  bookingUpdateBtn.classList.add("d-none");
+  currentBookingIndex = -1;
+});
+
+inHouseModal.addEventListener("hidden.bs.modal", () => {
+  inHouseForm.reset();
+  inHouseSubmitBtn.classList.remove("d-none");
+  inHouseUpdateBtn.classList.add("d-none");
+  currentInHouseIndex = -1;
+});
+
+// Initial render
+renderBookingTable();
 renderInHouseTable();
